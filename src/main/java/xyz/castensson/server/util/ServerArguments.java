@@ -16,4 +16,8 @@ public class ServerArguments {
     public String host = null;
     @Parameter(names = {"--port", "-p"})
     public String port = "8889";
+    @Parameter(names = {"--storage", "-s"})
+    public String storage = "MEMORY";
+    @Parameter(names = {"--databasefile", "-d"})
+    public String dpPropertiesFile = null;
 }
