@@ -22,6 +22,8 @@ The application will now start in memory mode, that is storing shortened urls in
 
 By default the webserver will start on port 8889 if no specific port is provided using -p
 
-Open a browser and point it to http://localhost:<port_number>/create
+Open a browser and point it to http://localhost:8889/create (or the port of choice)
+
+Enter url to be shortened and hit enter/click submit to get the result.
 
 
