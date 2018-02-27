@@ -43,4 +43,6 @@ dependencies {
     compile group: 'com.beust', name: 'jcommander', version: '1.72'
     // https://mvnrepository.com/artifact/com.h2database/h2
     runtime group: 'com.h2database', name: 'h2', version: '1.4.196'
+    // https://mvnrepository.com/artifact/commons-validator/commons-validator
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
 }

@@ -1,5 +1,6 @@
 package xyz.castensson.server;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 import xyz.castensson.server.model.UrlData;
@@ -31,7 +32,7 @@ public class RestOperations {
     UriInfo uri;
 
     @Inject
-    UrlStorage storage;
+    private UrlStorage storage;
 
     @GET
     @Path("{url}")
@@ -53,10 +54,7 @@ public class RestOperations {
             try {
                 URI uri = (new URL(urlData.getLongUrl()).toURI());
                 return Response.seeOther(uri).build();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-            } catch (URISyntaxException e) {
+            } catch (MalformedURLException | URISyntaxException e) {
                 e.printStackTrace();
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
@@ -68,9 +66,7 @@ public class RestOperations {
     @Path("create")
     @Produces(MediaType.TEXT_HTML)
     public String createGet() {
-        String shortenForm = new Scanner(RestOperations.class.getResourceAsStream("/html/index.html"), "UTF-8").useDelimiter("\\A").next();
-        shortenForm = shortenForm.replace("<baseurl>", uri.getBaseUri().toString());
-        return shortenForm;
+        return getCreateForm("Insert url to be shortened:");
     }
 
     @POST
@@ -78,6 +74,10 @@ public class RestOperations {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public String createPost(@FormParam("url") String url) {
+        UrlValidator urlValidator = new UrlValidator();
+        if (!urlValidator.isValid(url)){
+            return getCreateForm("The provided url was invalid, please try again:");
+        }
         UrlData urlData;
         try {
             urlData = storage.lookupLong(url);
@@ -97,5 +97,16 @@ public class RestOperations {
 
         String result = new Scanner(RestOperations.class.getResourceAsStream("/html/result.html"), "UTF-8").useDelimiter("\\A").next();
         return result.replace("<shorturl>", "" + uri.getBaseUri() + urlData.getShortUrl()).replace("<longurl>", urlData.getLongUrl());
+    }
+
+    /**
+     * Generate simple page for inputting url to be shortened
+     * @param message Message to display on form page
+     * @return simple html for for submitting urls for shortening
+     */
+    private String getCreateForm(String message) {
+        String shortenForm = new Scanner(RestOperations.class.getResourceAsStream("/html/index.html"), "UTF-8").useDelimiter("\\A").next();
+        shortenForm = shortenForm.replace("[baseurl]", uri.getBaseUri().toString()).replace("[message]", message);
+        return shortenForm;
     }
 }
