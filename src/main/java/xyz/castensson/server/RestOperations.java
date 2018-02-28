@@ -72,7 +72,7 @@ public class RestOperations {
     @POST
     @Path("create")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_HTML)
+    @Produces(MediaType.TEXT_PLAIN)
     public String createPost(@FormParam("url") String url) {
         UrlValidator urlValidator = new UrlValidator();
         if (!urlValidator.isValid(url)){
@@ -95,8 +95,7 @@ public class RestOperations {
             }
         }
 
-        String result = new Scanner(RestOperations.class.getResourceAsStream("/html/result.html"), "UTF-8").useDelimiter("\\A").next();
-        return result.replace("<shorturl>", "" + uri.getBaseUri() + urlData.getShortUrl()).replace("<longurl>", urlData.getLongUrl());
+        return uri.getBaseUri() + urlData.getShortUrl();
     }
 
     /**

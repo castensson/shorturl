@@ -18,9 +18,9 @@ Move into the folder named *shorturl-1.0-SNAPSHOT/bin*
 
 Run the application using *./shorturl [-p port_number]*
 
-The application will now start in memory mode, that is storing shortened urls in memory. Stopping the process will thus reset it.
+*The application will now start in memory mode, that is storing shortened urls in memory. Stopping the process will thus reset it.*
 
-By default the webserver will start on port 8889 if no specific port is provided using -p
+*By default the webserver will start on port 8889 if no specific port is provided using -p*
 
 Open a browser and point it to http://localhost:8889/create (or the port of choice)
 
@@ -37,8 +37,12 @@ To start an instance of H2 with default test setup, from within *shorturl-1.0-SN
 This starts up an instance of H2 as a background process and the console is available at:  
 [http://localhost:8082/login.jsp](http://localhost:8082/login.jsp)  
 If you choose to connect using the console, make sure to set *JDBC URL* to   
-**jdbc:h2:tcp://localhost/~/shorturl;AUTO_SERVER=TRUE**  
-Otherwise only one connection is allowed and the console will block the application from accessing the database.
+jdbc:h2:tcp://localhost/~/**shorturl;AUTO_SERVER=TRUE**
+
+*shorturl* will ensure you connect to the same db that the application will use  
+*AUTO_SERVER=TRUE* 
+will ensure multiple connections is allowed. Otherwise only one connection is allowed and the console will block 
+the application from accessing the database.
 
 Create a text file named h2.properties with the following contents:  
 *db.url=jdbc:h2:~/shorturl;AUTO_SERVER=TRUE*  
