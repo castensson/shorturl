@@ -35,14 +35,20 @@ To start an instance of H2 with default test setup, from within *shorturl-1.0-SN
 *java -jar ../lib/h2-1.4.196.jar &*
 
 This starts up an instance of H2 as a background process and the console is available at [http://localhost:8082/login.jsp](http://localhost:8082/login.jsp)
-If you choose to connect using the console, make sure to set *JDBC URL* to **jdbc:h2:tcp://localhost/~/test;AUTO_SERVER=TRUE**
+If you choose to connect using the console, make sure to set *JDBC URL* to **jdbc:h2:tcp://localhost/~/shorturl;AUTO_SERVER=TRUE**
 Otherwise only one connection is allowed and the console will block the application from accessing the database.
 
 Create a text file named h2.properties with the following contents.
-*db.url=jdbc:h2:~/test;AUTO_SERVER=TRUE*
-*db.driver=org.h2.Driver*
-*db.user=sa*
-*db.password=*
+*db.url=jdbc:h2:~/shorturl;AUTO_SERVER=TRUE*  
+*db.driver=org.h2.Driver*  
+*db.user=sa*  
+*db.password=*  
+
+Start the application from shorturl-1.0-SNAPSHOT/bin* using the following syntax:
+*./shorturl -s JDBC -d /path/to/h2.properties*
+
+The server will now start in JDBC mode and persist urls between restarts. Shorten an URL and using the console of H2 you
+can see that a storage table has been created along with a sequence and some indexes on the table.
 
 
 
